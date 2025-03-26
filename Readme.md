@@ -18,6 +18,7 @@ With the trust registry entities can prove and maintain their status as verified
 - [Overview](#Overview)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Known Issues](#known-issues)
 - [Contributions and feedback](#contributions-and-feedback)
 - [License](#license)
 
@@ -63,6 +64,10 @@ The openapi definition can then be found [here](http://localhost:8390/swagger-ui
 The data service is always unprotected as all data on the registers should be readable by everyone.  
 The authoring services do need protection, which is as of now handled by the infrastructure.  
 We do recommend to add mTLS authentication to your infrastructure endpoints.
+
+## Known Issues
+
+The swiyu Public Beta Trust Infrastructure was deliberately released at an early stage to enable future ecosystem participants. There may still be minor bugs or security vulnerabilities in the test system. We will publish them in the near future as ‘KnownIssues’ in this repository.
 
 ## Contributions and feedback
 
