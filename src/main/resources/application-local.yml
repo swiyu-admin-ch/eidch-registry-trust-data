@@ -2,16 +2,29 @@
 #
 # SPDX-License-Identifier: MIT
 
+server:
+  port: 8390 # dedicated within swiyu to avoid conflicts
+
+jeap:
+  monitor:
+    prometheus:
+      password: "{noop}prometheus"
+      user: "prometheus"
+
 spring:
+  sql:
+    init:
+      schema-locations: classpath:init-schema-for-local-startup.sql
+      mode: always
   datasource:
+    driver-class-name: org.postgresql.Driver
     url: "jdbc:postgresql://localhost:5390/trust-registry-db"
     username: "postgres"
     password: "secret"
-
   jpa:
     properties:
       hibernate:
-        ddl-auto: create
+        hbm2ddl.auto: update
 
   docker:
     compose:
@@ -20,4 +33,11 @@ spring:
 
 logging:
   level:
-    ch.admin.bit.eid: DEBUG
+    ch.admin.bit.jeap: DEBUG
+    ch.admin.bj.swiyu: DEBUG
+    org.springframework.web: DEBUG
+
+features:
+  EIDARTFE_671_672_TRUST_PROTOCOL: true
+  EIDARTFE_754_VC_SCHEMA: true
+  EIDARTFE_1129_NON_COMPLIANT_ACTORS: true

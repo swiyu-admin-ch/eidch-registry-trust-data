@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-
 CREATE TABLE vc_entity
 (
     id         bigint GENERATED ALWAYS AS IDENTITY,

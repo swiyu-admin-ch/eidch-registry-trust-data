@@ -3,55 +3,47 @@
 # SPDX-License-Identifier: MIT
 
 server:
-  port: 8390
+  port: 8080
+
+jeap:
+  monitor:
+    prometheus:
+      password: "{noop}${MONITORING_BASIC_AUTH_PASSWORD}"
+      user: "${MONITORING_BASIC_AUTH_USERNAME}"
+  swagger:
+    status: OPEN
+  rest:
+    tracing:
+      uri-filter-pattern: .*/actuator/.*
+      full-response-details-in-message: false
 
 spring:
   application:
-    name: trust-registry-data-service
+    name: swiyu-registry-trust-data-service
   flyway:
     enabled: false
   datasource:
+    type: com.zaxxer.hikari.HikariDataSource
     hikari:
       schema: ${spring.jpa.properties.hibernate.default_schema}
   jpa:
-    defer-datasource-initialization: true
     properties:
       hibernate:
         default_schema: data
-        ddl-auto: validate
+        hbm2ddl.auto: validate
+    open-in-view: false
 springdoc:
-  api-docs:
-    path: /api-docs
-    enabled: "${INTEGRATED_WEB_DOCS_ENABLE:true}"
   swagger-ui:
-    path: /swagger-ui.html
-    enabled: "${INTEGRATED_WEB_DOCS_ENABLE:true}"
-  show-actuator: "${INTEGRATED_WEB_DOCS_ENABLE:true}"
-
-
-management:
-  endpoint:
-    health:
-      enabled: true
-      probes:
-        enabled: true
-  health:
-    livenessState:
-      enabled: true
-    readinessState:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: health, info, prometheus
-
-
-monitoring:
-  basic-auth:
-    enabled: ${MONITORING_BASIC_AUTH_ENABLED:false}
-    username: "${MONITORING_BASIC_AUTH_USERNAME:}"
-    password: "${MONITORING_BASIC_AUTH_PASSWORD:}"
+    oauth:
+      client-id: ${spring.application.name}
 
 logging:
   level:
-    ch.admin.bit.eid: INFO
+    ch.admin.bit.jeap: INFO
+    ch.admin.bit.jeap.log.RestRequestTracer: DEBUG
+    ch.admin.bj.swiyu: INFO
+
+features:
+  EIDARTFE_671_672_TRUST_PROTOCOL: ${FEATURES_EIDARTFE_671_672_TRUST_PROTOCOL:false}
+  EIDARTFE_754_VC_SCHEMA: ${FEATURES_EIDARTFE_754_VC_SCHEMA:false}
+  EIDARTFE_1129_NON_COMPLIANT_ACTORS: ${FEATURES_EIDARTFE_1129_NON_COMPLIANT_ACTORS:false}

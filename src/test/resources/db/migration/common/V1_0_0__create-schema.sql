@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  */
-
 CREATE TABLE datastore_entity
 (
     id     uuid NOT NULL,

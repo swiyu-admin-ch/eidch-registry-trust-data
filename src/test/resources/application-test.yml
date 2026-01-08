@@ -4,24 +4,33 @@
 
 spring:
   datasource:
-    url: 'jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_UPPER=false;INIT=CREATE SCHEMA IF NOT EXISTS "data"\;SET SCHEMA "data"\;'
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
+    # using testcontainer
+    #url: 'jdbc:postgresql://localhost:5390/trust-registry-db'
+    username: postgres
+    password: secret
+    driverClassName: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 2
   jpa:
-    defer-datasource-initialization: false
-    database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
         default_schema: data
+  sql:
+    init:
+      mode: always
   flyway:
     enabled: true
     default-schema: ${spring.jpa.properties.hibernate.default_schema}
     locations:
       - classpath:db/migration/common
-    depends-on: entityManagerFactory
+
   main:
     allow-circular-references: true
+
+features:
+  EIDARTFE_671_672_TRUST_PROTOCOL: true
+  EIDARTFE_754_VC_SCHEMA: true
+  EIDARTFE_1129_NON_COMPLIANT_ACTORS: true
